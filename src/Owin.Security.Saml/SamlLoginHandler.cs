@@ -15,6 +15,7 @@ using System.Runtime.ExceptionServices;
 using Microsoft.Owin.Security.Notifications;
 using Microsoft.Owin.Security;
 using System.Linq;
+using System.Security.Claims;
 
 namespace Owin
 {
@@ -166,7 +167,7 @@ namespace Owin
                 foreach (var kvp in challengeProperties.Dictionary.Except(authenticationProperties.Dictionary))
                     authenticationProperties.Dictionary.Add(kvp);
             }
-			return Task.FromResult(new AuthenticationTicket(assertion.ToClaimsIdentity(options.SignInAsAuthenticationType), authenticationProperties));
+			return Task.FromResult(new AuthenticationTicket(assertion.ToClaimsIdentity(options.SignInAsAuthenticationType, ClaimTypes.NameIdentifier), authenticationProperties));
         }
 
         private Task<NameValueCollection> HandleResponse(IOwinContext context)
